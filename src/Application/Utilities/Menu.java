@@ -11,11 +11,14 @@ package Application.Utilities;
  */
 public class Menu {
     public static int getChoice(String[] opts, String menuTitle) {
-        System.out.println("================= *" + menuTitle + "* ===============");
+        String msg = "================ *" + menuTitle + "* ================";
+        System.out.println(msg);
         for (int i = 0; i < opts.length; i++)
             System.out.println("  " + (i + 1) + "- " + opts[i]);
         System.out.println("  Others quit!");
-        System.out.println("=============================================");
+        for (int i = 0; i < msg.length(); i++)
+            System.out.print("=");
+        System.out.println();
         return Inputter.getNonNegativeInteger("Enter your choice: ");
     }
 }

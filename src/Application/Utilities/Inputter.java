@@ -51,10 +51,12 @@ public class Inputter {
         return n;
     }
     
-    public static String getPatternString(String inputMsg, String pattern) {
+    public static String getPatternString(String inputMsg, String pattern, String errorMsg) {
         String s;
         do {
             s = getNonBlankString(inputMsg).toUpperCase();
+            if (!s.matches(pattern))
+                System.out.println(errorMsg);
         } while (!s.matches(pattern));
         return s;
     }
@@ -79,8 +81,9 @@ public class Inputter {
     public static boolean getYesOrNo(String inputMsg) {
         String s;
         do {
-            System.out.print(inputMsg);
-            s = sc.nextLine().toUpperCase();
+            s = getNonBlankString(inputMsg).toUpperCase();
+            if (!s.matches("Y|N"))
+                System.out.println("Please enter 'Y' or 'N'");
         } while (!s.matches("Y|N"));
         return s.equals("Y");
     }

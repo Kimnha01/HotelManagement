@@ -1,7 +1,4 @@
 package Data;
-
-import Data.DataValidation;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,7 +8,7 @@ import Data.DataValidation;
  *
  * @author Kim Nha
  */
-public class Hotel {
+public class Hotel implements Comparable {
 
     private String id, name;
     private int roomAvailable;
@@ -82,5 +79,16 @@ public class Hotel {
     @Override
     public String toString() {
         return id + ", " + name + ", " + roomAvailable + ", " + address + ", " + phoneNumber + ", " + rating;
+    }
+    
+    public void showProfile() {
+        String msg = String.format("| %-5s| %-21s| %5d | %-73s| %-10s | %d %-4s |", id, name, roomAvailable, address, phoneNumber, rating, "star");
+        System.out.println(msg);
+    }
+
+    @Override
+    public int compareTo(Object other) {
+        Hotel o = (Hotel)other;
+        return -(name.compareToIgnoreCase(o.name));
     }
 }
