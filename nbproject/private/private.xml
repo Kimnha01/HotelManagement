@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/Application/Utilities/Inputter.java</file>
             <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/Data/HotelList.java</file>
-            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/Data/DataValidation.java</file>
-            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/FileManager/FileManager.java</file>
-            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/Application/Utilities/Menu.java</file>
+            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/UI/Menu.java</file>
+            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/MyUtil/DataValidation.java</file>
+            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/UI/Tester.java</file>
             <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/Data/Hotel.java</file>
-            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/Application/UI/Tester.java</file>
+            <file>file:/D:/FPTUniversity/2024.Spring/LAB211/Set10_SP24/HotelManagement/src/MyUtil/Inputter.java</file>
         </group>
     </open-files>
 </project-private>

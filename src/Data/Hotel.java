@@ -78,7 +78,7 @@ public class Hotel implements Comparable {
 
     @Override
     public String toString() {
-        return id + ", " + name + ", " + roomAvailable + ", " + address + ", " + phoneNumber + ", " + rating;
+        return id + "-" + name + "-" + roomAvailable + "-" + address + "-" + phoneNumber + "-" + rating;
     }
     
     public void showProfile() {
@@ -89,6 +89,6 @@ public class Hotel implements Comparable {
     @Override
     public int compareTo(Object other) {
         Hotel o = (Hotel)other;
-        return -(name.compareToIgnoreCase(o.name));
+        return o.name.compareToIgnoreCase(name);
     }
 }

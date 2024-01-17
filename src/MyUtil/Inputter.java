@@ -1,4 +1,4 @@
-package Application.Utilities;
+package MyUtil;
 
 
 import java.util.Scanner;
@@ -65,7 +65,7 @@ public class Inputter {
         String s;
         do {
             System.out.print(inputMsg);
-            s = sc.nextLine();
+            s = sc.nextLine().trim();
             if (s.isEmpty())
                 System.out.println("This can't not be empty!");
         } while (s.isEmpty());
@@ -74,7 +74,7 @@ public class Inputter {
     
     public static String getString(String inputMsg) {
         System.out.print(inputMsg);
-        String s = sc.nextLine();
+        String s = sc.nextLine().trim();
         return s;
     }
     

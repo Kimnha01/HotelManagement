@@ -1,10 +1,7 @@
-package Application.UI;
+package UI;
 
 
 import Data.HotelList;
-import Application.Utilities.Menu;
-import FileManager.FileManager;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,8 +16,7 @@ public class Tester {
     
     public static void main(String[] args) {
         HotelList list = new HotelList();
-        FileManager fm = new FileManager();
-        fm.loadFromFile(list, "Hotels.txt");
+        list.loadFromFile("Hotels.txt");
         String[] opts = {"Add new Hotel",
                         "Check exists Hotel",
                         "Update Hotel information",
@@ -53,7 +49,7 @@ public class Tester {
                 default:
                     System.out.println("Quit! See you next time!");
             }
-            fm.saveToFile(list, "Hotels.txt");
+            list.saveToFile("Hotels.txt");
             System.out.println();
         } while (choice >=1 && choice <= 6);
     }

@@ -1,8 +1,10 @@
 package Data;
 
 
-import Application.Utilities.Inputter;
-import Application.Utilities.Menu;
+import MyUtil.DataValidation;
+import MyUtil.Inputter;
+import UI.Menu;
+import java.io.*;
 import java.util.*;
 
 /*
@@ -16,11 +18,53 @@ import java.util.*;
  */
 public class HotelList extends ArrayList<Hotel> {
 
-    private Scanner sc = new Scanner(System.in);
-    private DataValidation dv = new DataValidation();
-
     public HotelList() {
         super();
+    }
+    
+    public boolean loadFromFile(String fileName) {
+        File f = new File(fileName);
+        if (!f.exists()) 
+            return false;
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bf = new BufferedReader(fr);
+            String line = "";
+            while ((line = bf.readLine()) != null) {
+                String token[] = line.split("-");
+                if (token.length == 6) {
+                    String id = token[0];
+                    String name = token[1];
+                    int roomAvailable = Integer.parseInt(token[2]);
+                    String address = token[3];
+                    String phoneNumber = token[4];
+                    int rating = Integer.parseInt(token[5]);
+                    add(new Hotel(id, name, roomAvailable, address, phoneNumber, rating));
+                }
+            }
+            bf.close();
+            fr.close();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean saveToFile(String fileName) {
+        File f = new File(fileName);
+        if (!f.exists()) 
+            return false;
+        try {
+            FileWriter fw = new FileWriter(f);
+            PrintWriter pw = new PrintWriter(fw);
+            for (Hotel x : this) 
+                pw.println(x);
+            pw.close();
+            fw.close();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     public void addNewHotel() {
@@ -28,13 +72,13 @@ public class HotelList extends ArrayList<Hotel> {
         boolean choice = true;
         while (choice) {
             Hotel h = new Hotel();
-            id = dv.inputId(this);
+            id = DataValidation.inputId(this);
             h.setId(id);
-            dv.inputName(h);
-            dv.inputRoomAvailable(h);
-            dv.inputAddress(h);
-            dv.inputPhoneNumber(h);
-            dv.inputRating(h);
+            DataValidation.inputName(h);
+            DataValidation.inputRoomAvailable(h);
+            DataValidation.inputAddress(h);
+            DataValidation.inputPhoneNumber(h);
+            DataValidation.inputRating(h);
             add(h);
             System.out.println("\nThe new Hotel has been added successfully!\n");
             choice = Inputter.getYesOrNo("Do you want to continuously add new Hotel?(Y/N): ");
@@ -57,9 +101,10 @@ public class HotelList extends ArrayList<Hotel> {
         String id;
         boolean choice = true;
         while (choice) {
-            id = Inputter.getPatternString("Enter Hotel_ID you want to check: ", "H\\d{2,}", "The format of ID is HX (X stands for 2 or more digits)");
+            id = Inputter.getPatternString("Enter Hotel_ID you want to check: ", "H\\d{2}", "The format of ID is Hxx");
             if (search(id) != null) {
                 System.out.println("\nHotel exists!");
+                System.out.println(getHeading());
                 search(id).showProfile();
             }
             else 
@@ -75,22 +120,24 @@ public class HotelList extends ArrayList<Hotel> {
             System.out.println("The Hotel List is empty! Nothing to update!");
             return;
         }
-        String id = Inputter.getPatternString("Enter Hotel_ID you want to update: ", "H\\d{2,}", "The format of ID is HX (X stands for 2 or more digits)");
+        String id = Inputter.getPatternString("Enter Hotel_ID you want to update: ", "H\\d{2}", "The format of ID is Hxx");
         Hotel x = search(id);
         if (x == null) {
             System.out.println("\nThe Hotel does not exist!");
             return;
         }
         System.out.println("\nFound! The Hotel before updating is:");
+        System.out.println(getHeading());
         x.showProfile();
         System.out.println();
-        dv.updateName(x);
-        dv.updateRoomAvailable(x);
-        dv.updateAddress(x);
-        dv.updatePhoneNumber(x);
-        dv.updateRating(x);
+        DataValidation.updateName(x);
+        DataValidation.updateRoomAvailable(x);
+        DataValidation.updateAddress(x);
+        DataValidation.updatePhoneNumber(x);
+        DataValidation.updateRating(x);
         System.out.println("\nUpdate successfully!");
         System.out.println("\nHere is the Hotel after updating:");
+        System.out.println(getHeading());
         x.showProfile();
     }
     
@@ -99,13 +146,14 @@ public class HotelList extends ArrayList<Hotel> {
             System.out.println("The Hotel List is empty! Nothing to delete!");
             return;
         }
-        String id = Inputter.getPatternString("Enter Hotel_ID you want to delete: ", "H\\d{2,}", "The format of ID is HX (X stands for 2 or more digits)");
+        String id = Inputter.getPatternString("Enter Hotel_ID you want to delete: ", "H\\d{2}", "The format of ID is Hxx");
         Hotel x = search(id);
         if (x == null) {
             System.out.println("\nThe Hotel does not exist!");
             return;
         }
         System.out.println("\nFound! The Hotel is:");
+        System.out.println(getHeading());
         x.showProfile();
         System.out.println();
         boolean choice = Inputter.getYesOrNo("Do you ready to delete this hotel? (Y/N): ");
@@ -151,9 +199,7 @@ public class HotelList extends ArrayList<Hotel> {
         return listById;
     }
     
-    public void searchByID() {
-//        String id = Inputter.getPatternString("Enter Hotel_ID you want to search: ", "H\\d{2,}", "The format of ID is HX (X stands for 2 or more digits)");
-        
+    public void searchByID() {        
         String id = Inputter.getNonBlankString("Enter Hotel_ID you want to search: ").toUpperCase();
         System.out.println();
         ArrayList<Hotel> listById = searchById(id);
@@ -186,10 +232,9 @@ public class HotelList extends ArrayList<Hotel> {
     }
     
     public void printList(ArrayList<Hotel> list) {
-        String msg = String.format("| %-5s| %-21s| %-5s | %-73s| %-10s | %-6s |", 
-                                    "ID", "Name", "Rooms", "Address", "Phone", "Rating");
-        System.out.println(msg);
-        for (int i = 0; i < msg.length(); i++)
+        String heading = getHeading();
+        System.out.println(heading);
+        for (int i = 0; i < heading.length(); i++)
             System.out.print("-");
         System.out.println();
         for (Hotel x : list) 
@@ -208,5 +253,10 @@ public class HotelList extends ArrayList<Hotel> {
         list.addAll(this);
         Collections.sort(list);
         printList(list);
+    }
+    
+    public String getHeading() {
+        return String.format("| %-5s| %-21s| %-5s | %-73s| %-10s | %-6s |", 
+                                    "ID", "Name", "Rooms", "Address", "Phone", "Rating");
     }
 }
